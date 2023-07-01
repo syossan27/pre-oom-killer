@@ -1,6 +1,5 @@
 image:
   repository: ghcr.io/syossan27/pre-oom-killer
-  pullPolicy: IfNotPresent
   tag: latest
 
 pod:
