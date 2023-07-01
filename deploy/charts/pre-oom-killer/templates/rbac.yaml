@@ -33,7 +33,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ .Values.serviceAccount.name }}
-    namespace: kube-system
+    namespace: {{ .Values.serviceAccount.namespace }}
 roleRef:
   kind: ClusterRole
   name: {{ .Values.rbac.name }}

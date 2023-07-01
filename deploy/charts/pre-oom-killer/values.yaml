@@ -10,6 +10,7 @@ pod:
 
 serviceAccount:
   name: pre-oom-killer
+  namespace: kube-system
 
 rbac:
   name: pre-oom-killer
