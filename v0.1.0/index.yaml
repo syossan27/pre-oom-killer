@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  pre-oom-killer:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-07-01T18:38:37.393896+09:00"
+    description: A Helm chart for Kubernetes
+    digest: 01c9a9fcb92031da44c01273d6d25bb5ed6f6364b897a71109c60a76349d7ba3
+    name: pre-oom-killer
+    type: application
+    urls:
+    - pre-oom-killer-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-07-01T18:38:37.391411+09:00"
