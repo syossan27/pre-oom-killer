@@ -5,6 +5,7 @@ image:
 
 pod:
   name: pre-oom-killer
+  namespace: kube-system
   containerName: pre-oom-killer
   terminationGracePeriodSeconds: 30
 
