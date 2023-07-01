@@ -8,4 +8,4 @@ spec:
     - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
       name: {{ .Values.pod.containerName }}
   serviceAccountName: {{ .Values.serviceAccount.name }}
-  terminationGracePeriodSeconds: {{ .Values.serviceAccount}}
+  terminationGracePeriodSeconds: {{ .Values.pod.terminationGracePeriodSeconds }}
