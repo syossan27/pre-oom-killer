@@ -1,0 +1,15 @@
+image:
+  repository: ghcr.io/syossan27/pre-oom-killer
+  pullPolicy: IfNotPresent
+  tag: latest
+
+pod:
+  name: pre-oom-killer
+  containerName: pre-oom-killer
+  terminationGracePeriodSeconds: 30
+
+serviceAccount:
+  name: pre-oom-killer
+
+rbac:
+  name: pre-oom-killer
