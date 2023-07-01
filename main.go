@@ -196,7 +196,7 @@ func main() {
 
 	flag.StringVar(&kubeconfig, "kubeconfig", "", "absolute path to the kubeconfig file")
 	flag.StringVar(&masterUrl, "masterUrl", "", "masterUrl url")
-	flag.IntVar(&interval, "interval", 3600, "Interval (in seconds)")
+	flag.IntVar(&interval, "interval", 300, "Interval (in seconds)")
 	flag.StringVar(&logLevel, "logLevel", "info", "Log level, one of debug, info, warn, error")
 	flag.StringVar(&logFormat, "logFormat", "text", "Log format, one of json, text")
 	flag.Parse()
