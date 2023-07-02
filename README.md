@@ -1,5 +1,14 @@
 # Pre OOM Killer
 
+## Notice
+
+Pre OOM Killer is under development!   
+The service I am working on is working fine, but please be careful with it.
+
+I am also open to your requests and ideas. I can't say that we will adopt all of them, but if there are good ideas, we will adopt them.
+
+## Overview
+
 Pre OOM Killer evict the specified pod before it is OOMKilled.
 
 Pre-oom-killer is based on preoomkiller-controller created by zapier and modified to evict by memory usage.  
