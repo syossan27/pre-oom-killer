@@ -76,7 +76,8 @@ func evictPod(ctx context.Context, client kubernetes.Interface, podName, podName
 func (c *Controller) Evict() error {
 	evictionCount := 0
 
-	// Pod一覧の取得
+	// Fetch a list of pods
+	// Pod一覧を取得する
 	podList, err := c.clientset.CoreV1().Pods("").List(
 		c.context,
 		metav1.ListOptions{
@@ -108,6 +109,7 @@ func (c *Controller) Evict() error {
 			continue
 		}
 
+		// Fetch the specified Container's limits.memory
 		// 指定したContainerのlimits.memoryを取得する
 		var containerLimitsMemory *resource.Quantity
 		for _, container := range pod.Spec.Containers {
@@ -115,13 +117,16 @@ func (c *Controller) Evict() error {
 				continue
 			}
 
-			// Memo: resources.limits.memoryを取得しようと思うとPodではなくPod内のContainer単位で取得しなければいけない
+			// Memo:
+			// If you want to get resources.limits.memory, you have to get it per Container in Pod, not Pod
+			// resources.limits.memoryを取得しようと思うとPodではなくPod内のContainer単位で取得しなければいけない
 			containerLimitsMemory = container.Resources.Limits.Memory()
 		}
 		if containerLimitsMemory == nil {
 			continue
 		}
 
+		// Fetch the memory.usage of the specified Container
 		// 指定したContainerのmemory.usageを取得する
 		containerMemoryUsage := &resource.Quantity{}
 		podMetrics, err := c.metricsClientset.MetricsV1beta1().PodMetricses(podNamespace).Get(c.context, podName, metav1.GetOptions{})
@@ -142,6 +147,7 @@ func (c *Controller) Evict() error {
 			containerMemoryUsage = containerMetrics.Usage.Memory()
 		}
 
+		// Whether memory utilization is above the threshold
 		// メモリ使用率がしきい値を超えているかどうか
 		containerMemoryUsagePercentage := (float64(containerMemoryUsage.Value()) / float64(containerLimitsMemory.Value())) * 100
 		if containerMemoryUsagePercentage > float64(podMemoryUsageThreshold.Value()) {
@@ -247,10 +253,15 @@ func main() {
 var onlyOneSignalHandler = make(chan struct{})
 var shutdownSignals = []os.Signal{os.Interrupt, syscall.SIGTERM}
 
-// SetupSignalHandler : SIGTERMとSIGINTをハンドリングする
+// SetupSignalHandler
+// Handling SIGTERM and SIGINT
+// When either signal occurs, a canceled context is returned
+// If the second signal is caught, the program exits with exit code 1 (= force shutdown)
+// SIGTERMとSIGINTをハンドリングする
 // どちらかのシグナルが発生するとキャンセルされるコンテキストが返される
 // 2回目のシグナルがキャッチされた場合、プログラムは終了コード1で終了する（ = force shutdown)
 func SetupSignalHandler() context.Context {
+	// Prevention of multiple calls
 	// 多重呼び出しの防止
 	close(onlyOneSignalHandler)
 
